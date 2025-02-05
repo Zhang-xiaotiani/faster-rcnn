@@ -1,0 +1,16 @@
+
+    └── crowdhuman
+         ├── Annotations               所有的图像标注信息(XML文件)
+         ├── ImageSets
+         │   ├── Main                  目标检测分类图像信息
+         │   │     ├── train.txt       训练集(5717)
+         │   │     ├── val.txt         验证集(5823)
+         │   │     └── trainval.txt    训练集+验证集(11540)
+         │
+         ├── JPEGImages                所有图像文件
+         │   ├── train                 训练集
+         │   ├── val                   验证集
+         │   ├── test                  测试机
+
+
+

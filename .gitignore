@@ -1,0 +1,4 @@
+# 忽略特定的文件
+backbone/resnet50.pth
+backbone/fasterrcnn_resnet50_fpn_coco.pth
+CrowdHuman
