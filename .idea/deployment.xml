@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="root@connect.westb.seetacloud.com:36315 password" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@connect.westb.seetacloud.com:23280 password" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
     <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="root@connect.westb.seetacloud.com:11618 password">
@@ -45,10 +45,31 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="root@connect.westb.seetacloud.com:23280 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/autodl-tmp/faster_rcnn" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="root@connect.westb.seetacloud.com:36315 password">
         <serverdata>
           <mappings>
             <mapping deploy="/root/autodl-fs/faster_rcnn" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@connect.westb.seetacloud.com:40034 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/autodl-fs/faster_rcnn" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@connect.westb.seetacloud.com:40034 password (2)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/autodl-tmp" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

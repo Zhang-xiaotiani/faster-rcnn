@@ -6,6 +6,7 @@ import torch
 import json
 from PIL import Image
 from lxml import etree
+from pathlib import Path
 
 
 class VOCDataSet(Dataset):
@@ -207,6 +208,7 @@ class CrowdHumanDataSet(Dataset):
     def __init__(self, crowdhuman_root, transforms=None, txt_name: str = "train.txt"):
         # assert year in ["2007", "2012"], "year must be in ['2007', '2012']"
         # 增加容错能力
+        # print(crowdhuman_root)
         if "CrowdHuman" in crowdhuman_root:
             self.root = os.path.join(crowdhuman_root)
         else:
@@ -395,45 +397,45 @@ class CrowdHumanDataSet(Dataset):
         return tuple(zip(*batch))
 
 
-import transforms
-from draw_box_utils import draw_objs
-from PIL import Image
-import json
-import matplotlib.pyplot as plt
-import torchvision.transforms as ts
-import random
-
-# read class_indict
-category_index = {}
-try:
-    json_file = open('./pascal_voc_classes.json', 'r')
-    class_dict = json.load(json_file)
-    category_index = {str(v): str(k) for k, v in class_dict.items()}
-except Exception as e:
-    print(e)
-    exit(-1)
-
-data_transform = {
-    "train": transforms.Compose([transforms.ToTensor(),
-                                 transforms.RandomHorizontalFlip(0.5)]),
-    "val": transforms.Compose([transforms.ToTensor()])
-}
-
-# load train data set
-# train_data_set = VOCDataSet(os.getcwd(), "2012", data_transform["train"], "train.txt")
-train_data_set = CrowdHumanDataSet(os.getcwd(), data_transform["train"], "train.txt")
-print(len(train_data_set))
-for index in random.sample(range(0, len(train_data_set)), k=5):
-    img, target = train_data_set[index]
-    img = ts.ToPILImage()(img)
-    plot_img = draw_objs(img,
-                         target["boxes"].numpy(),
-                         target["labels"].numpy(),
-                         np.ones(target["labels"].shape[0]),
-                         category_index=category_index,
-                         box_thresh=0.5,
-                         line_thickness=3,
-                         font='arial.ttf',
-                         font_size=20)
-    plt.imshow(plot_img)
-    plt.show()
+# import transforms
+# from draw_box_utils import draw_objs
+# from PIL import Image
+# import json
+# import matplotlib.pyplot as plt
+# import torchvision.transforms as ts
+# import random
+#
+# # read class_indict
+# category_index = {}
+# try:
+#     json_file = open('./pascal_voc_classes.json', 'r')
+#     class_dict = json.load(json_file)
+#     category_index = {str(v): str(k) for k, v in class_dict.items()}
+# except Exception as e:
+#     print(e)
+#     exit(-1)
+#
+# data_transform = {
+#     "train": transforms.Compose([transforms.ToTensor(),
+#                                  transforms.RandomHorizontalFlip(0.5)]),
+#     "val": transforms.Compose([transforms.ToTensor()])
+# }
+#
+# # load train data set
+# # train_data_set = VOCDataSet(os.getcwd(), "2012", data_transform["train"], "train.txt")
+# train_data_set = CrowdHumanDataSet("../../autodl-fs", data_transform["train"], "train.txt")
+# print(len(train_data_set))
+# for index in random.sample(range(0, len(train_data_set)), k=5):
+#     img, target = train_data_set[index]
+#     img = ts.ToPILImage()(img)
+#     plot_img = draw_objs(img,
+#                          target["boxes"].numpy(),
+#                          target["labels"].numpy(),
+#                          np.ones(target["labels"].shape[0]),
+#                          category_index=category_index,
+#                          box_thresh=0.5,
+#                          line_thickness=3,
+#                          font='arial.ttf',
+#                          font_size=20)
+#     plt.imshow(plot_img)
+#     plt.show()

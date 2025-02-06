@@ -6,7 +6,7 @@ import torch
 import transforms
 from network_files import FasterRCNN, FastRCNNPredictor
 from backbone import resnet50_fpn_backbone
-from my_dataset import VOCDataSet
+from my_dataset import VOCDataSet, CrowdHumanDataSet
 from train_utils import GroupedBatchSampler, create_aspect_ratio_groups
 from train_utils import train_eval_utils as utils
 
@@ -53,14 +53,14 @@ def main(args):
         "val": transforms.Compose([transforms.ToTensor()])
     }
 
-    VOC_root = args.data_path
-    # check voc root
-    if os.path.exists(os.path.join(VOC_root, "VOCdevkit")) is False:
-        raise FileNotFoundError("VOCdevkit dose not in path:'{}'.".format(VOC_root))
+    crowedhuman = args.data_path
+    # check CrowdHuman root
+    if os.path.exists(os.path.join(crowedhuman, "CrowdHuman")) is False:
+        raise FileNotFoundError("CrowdHuman dose not in path:'{}'.".format(crowedhuman))
 
     # load train data set
-    # VOCdevkit -> VOC2012 -> ImageSets -> Main -> train.txt
-    train_dataset = VOCDataSet(VOC_root, "2012", data_transform["train"], "train.txt")
+    # CrowdHuman -> ImageSets -> train.txt
+    train_dataset = CrowdHumanDataSet(crowedhuman, data_transform["train"], "train.txt")
     train_sampler = None
 
     # 是否按图片相似高宽比采样图片组成batch
@@ -92,8 +92,8 @@ def main(args):
                                                         collate_fn=train_dataset.collate_fn)
 
     # load validation data set
-    # VOCdevkit -> VOC2012 -> ImageSets -> Main -> val.txt
-    val_dataset = VOCDataSet(VOC_root, "2012", data_transform["val"], "val.txt")
+    # CrowdHuman -> ImageSets > val.txt
+    val_dataset = CrowdHumanDataSet(crowedhuman, data_transform["val"], "val.txt")
     val_data_set_loader = torch.utils.data.DataLoader(val_dataset,
                                                       batch_size=1,
                                                       shuffle=False,
@@ -189,8 +189,8 @@ if __name__ == "__main__":
 
     # 训练设备类型
     parser.add_argument('--device', default='cuda:0', help='device')
-    # 训练数据集的根目录(VOCdevkit)
-    parser.add_argument('--data-path', default='./', help='dataset')
+    # 训练数据集的根目录(CrowdHuman)
+    parser.add_argument('--data-path', default='../../autodl-fs', help='dataset')
     # 检测目标类别数(不包含背景)
     parser.add_argument('--num-classes', default=20, type=int, help='num_classes')
     # 文件保存地址
@@ -214,11 +214,11 @@ if __name__ == "__main__":
                         metavar='W', help='weight decay (default: 1e-4)',
                         dest='weight_decay')
     # 训练的batch size
-    parser.add_argument('--batch_size', default=4, type=int, metavar='N',
+    parser.add_argument('--batch_size', default=5, type=int, metavar='N',
                         help='batch size when training.')
     parser.add_argument('--aspect-ratio-group-factor', default=3, type=int)
     # 是否使用混合精度训练(需要GPU支持混合精度)
-    parser.add_argument("--amp", default=False, help="Use torch.cuda.amp for mixed precision training")
+    parser.add_argument("--amp", default=True, help="Use torch.cuda.amp for mixed precision training")
 
     args = parser.parse_args()
     print(args)
